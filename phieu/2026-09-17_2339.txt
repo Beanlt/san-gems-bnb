@@ -1,0 +1,14 @@
+SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09) — GIAI DOAN 1: GHI SO, chua co muc tuyet doi
+   BUOC 2 loc tho : da tot nghiep · tuoi <= 48 gio · tien trong pool >= $20,000 · loai tu ten
+   THUOC A tien vao pool : chi xet 5 con day tien nhat RO CUNG LUOT (xep hang, khong phai muc)
+   THUOC B con vao tiep  : tien trong pool TANG so anh chup cach 0.5-3.0 gio
+   THUOC C nguoi moi     : so vi TANG so cung anh chup do
+   BUOC 4 cua an toan    : pool phai KHOA (doc isLocked cua locker lo) ·
+                           vi nguoi to nhat <=5% · top10 <=25% (GoPlus 56, da loc ha tang)
+   🔴 MA HOP DONG DONG = CANH BAO, KHONG LOAI. Ca lo nay deu ma dong (do 3 con 17/09).
+   🔴 KHU HOI chi la UOC tu TONG POOL — chua do duoc tien doi ung that (viec treo #1).
+   KHONG CO MOC BAN. May in phieu, Bean quyet.
+
+PHIEU BNB · 2026-09-17 23:39 UTC
+⛔ LOI GOI API cua lo: HTTP 403 — KHONG doc thanh 'khong co con nao'
+[1 cu · 0 giay]
