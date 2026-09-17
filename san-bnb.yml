@@ -1,0 +1,150 @@
+name: san-gems-bnb
+# MAY BNB — lo genius.fun. BON BUOC: 1 danh sach · 2 loc tho · 3 suc hut tien · 4 cua an toan.
+# GIAI DOAN 1: ghi so moi luot, cua vao la XEP HANG TRONG RO (SCRIPT.md v1 · LUAT.md v1).
+# 🔴 May nay KHONG dung chung repo, khong dung chung file voi may Robinhood.
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: san-gems-bnb
+  cancel-in-progress: false
+
+jobs:
+  quet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Chay SAN.py
+        run: bash chay.sh
+
+      - name: Ghi ket qua vao repo
+        if: always()
+        run: |
+          git config user.name  "san-gems-bnb bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin main || true
+          git add -A
+          if git diff --staged --quiet; then
+            echo "khong co gi moi"
+            exit 0
+          fi
+          git commit -m "quet bnb $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          # THU LAI BA LAN. Ca that may Robinhood 13/09: GitHub tra
+          #   'remote: fatal error in commit_refs' -> '! [remote rejected] main -> main'.
+          #   Loi phia may chu, thoang qua. Mat phieu VA mat mot moc so anh chup.
+          for i in 1 2 3; do
+            if git push; then
+              echo "day thanh cong o lan $i"
+              exit 0
+            fi
+            echo "day hong lan $i — cho 20 giay roi keo ve va thu lai"
+            sleep 20
+            git pull --rebase --autostash origin main || true
+          done
+          echo "DAY HONG CA BA LAN — phieu luot nay khong len duoc repo"
+          exit 1
+
+      # BAO IPHONE. Chi bao: (1) co con UNG VIEN 3/3 -> moi con mot tin, toi da 3
+      #   (2) Bean bam chay tay ma 0 con -> tin thu  (3) luot quet hong.
+      #   Ten kenh nam trong secret NTFY_TOPIC, KHONG ghi vao file (repo doc cong khai duoc).
+      - name: Bao iPhone qua ntfy
+        if: always()
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TRANG_THAI: ${{ job.status }}
+          KIEU_CHAY: ${{ github.event_name }}
+          LINK_PHIEU: https://github.com/${{ github.repository }}/blob/main/MOI-NHAT.md
+          LINK_LUOT: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import os, re, json, math, urllib.request
+
+          TOPIC = os.environ.get("NTFY_TOPIC", "").strip()
+          TRANG_THAI = os.environ.get("TRANG_THAI", "")
+          KIEU_CHAY = os.environ.get("KIEU_CHAY", "")
+          LINK_PHIEU = os.environ.get("LINK_PHIEU", "")
+          LINK_LUOT = os.environ.get("LINK_LUOT", "")
+
+          def gui(tieu_de, noi_dung, the, link):
+              goi = {"topic": TOPIC, "title": tieu_de, "message": noi_dung, "tags": [the], "click": link}
+              try:
+                  req = urllib.request.Request("https://ntfy.sh/", data=json.dumps(goi).encode(),
+                                               headers={"Content-Type": "application/json"})
+                  urllib.request.urlopen(req, timeout=20).read()
+                  print("da gui:", tieu_de)
+              except Exception as e:
+                  print("GUI NTFY HONG:", tieu_de, "-", e)
+
+          def gon_gia(s):
+              try:
+                  v = float(s.lstrip("$"))
+                  d = max(0, 2 - math.floor(math.log10(v)))
+                  return "$%.*f" % (d, v)
+              except Exception:
+                  return s
+
+          def doc_phieu(path="phieu.txt"):
+              try:
+                  dong = open(path, encoding="utf-8").read().splitlines()
+              except Exception:
+                  return []
+              ra, c = [], None
+              for d in dong:
+                  m = re.match(r"^(\S+)\s+(0x[0-9a-fA-F]{40})\s", d)
+                  if m:
+                      c = {"ma": m.group(1), "ca": m.group(2)}
+                      continue
+                  if c is None:
+                      continue
+                  s = d.strip()
+                  m = re.match(r"von hoa \$([\d,]+) · gia (\S+) · tuoi ([\d.]+) gio", s)
+                  if m:
+                      c["mc"] = m.group(1).replace(",", "."); c["tuoi"] = m.group(3)
+                  m = re.match(r"THUOC A tien vao pool: \$([\d,]+) — hang (\d+)/(\d+)", s)
+                  if m:
+                      c["res"] = m.group(1).replace(",", "."); c["hang"] = m.group(2) + "/" + m.group(3)
+                  m = re.match(r"THUOC B tien con vao : \$[\d,]+ -> \$[\d,]+ \(([+-][\d.]+%)\)", s)
+                  if m:
+                      c["dres"] = m.group(1)
+                  m = re.match(r"THUOC C nguoi moi    : ([\d,]+) -> ([\d,]+) vi \(([+-][\d.]+%)\)", s)
+                  if m:
+                      c["vi"] = m.group(2).replace(",", "."); c["dvi"] = m.group(3)
+                  m = re.search(r"GIA DAT LENH: (\$[\d.]+)", s)
+                  if m:
+                      c["gia"] = gon_gia(m.group(1))
+                  if "⇒ UNG VIEN 3/3" in s and c not in ra:
+                      ra.append(c)
+              return ra
+
+          def main():
+              if not TOPIC:
+                  print("chua cai secret NTFY_TOPIC — bo qua, khong bao")
+                  return
+              con = doc_phieu()[:3]
+              for c in con:
+                  d1 = "%s · vốn hoá $%s · tuổi %s giờ · hạng %s theo tiền trong pool" % (
+                      c["ma"], c.get("mc", "?"), c.get("tuoi", "?"), c.get("hang", "?"))
+                  d2 = "Tiền vào pool $%s (%s) · người mới %s ví (%s)" % (
+                      c.get("res", "?"), c.get("dres", "?"), c.get("vi", "?"), c.get("dvi", "?"))
+                  d3 = "Giá đặt lệnh %s — ĐO LẠI trước khi vào" % c.get("gia", "?")
+                  gui("SĂN BNB · %s 3/3" % c["ma"], "\n".join([d1, d2, d3]), "rotating_light", LINK_PHIEU)
+              if not con and KIEU_CHAY == "workflow_dispatch":
+                  gui("SĂN BNB · lượt tay xong", "0 ứng viên 3/3. Tin thử: ntfy đã thông.", "white_check_mark", LINK_PHIEU)
+              if TRANG_THAI and TRANG_THAI != "success":
+                  gui("SĂN BNB · lượt quét HỎNG", "Trạng thái: %s. Mở lượt này xem bước nào đỏ." % TRANG_THAI,
+                      "warning", LINK_LUOT)
+
+          main()
+          PY
