@@ -60,6 +60,9 @@ RES_SAN    = 20_000    # san tien trong pool, de bo con chi co bui (muc TOT NGHI
 VI_TO_MAX  = 5.0       # ⬜ NGUONG NHAP TU MAY ROBINHOOD, CHUA DO TREN BNB
 TOP10_MAX  = 25.0      # ⬜ nhu tren
 CO_LENH    = 250       # chi de tinh khu hoi UOC, khong phai goi y co lenh
+PHI_LO     = 2.0       # 🆕 PHI GIAO DICH CUA LO, mot chieu, %. Trang token cua lo khai thang:
+                       #    "TOTAL TRADING FEE 2%" = foundation 1 + nguoi tao 0,25 + san 0,5 + mua lai 0,25.
+                       #    GeckoTerminal de o phi RONG cho moi pool cua lo => truoc day may tinh thanh 0.
 GIO_KHONG_BAO_LAI = 12
 GIAN = 2.5 if os.environ.get("GITHUB_ACTIONS") else 2.0
 GT_GIAN = 4.0          # 🆕 giãn moi cu GeckoTerminal. Do 18/09: ~12 cu cach 2,2 giay la an 429
@@ -107,6 +110,8 @@ def in_nguong():
     print("   🔴 KHU HOI chi la UOC tu TONG POOL — chua do duoc tien doi ung that (viec treo #1).")
     print("   🆕 THUOC A do POOL CUA LO (san '%s'), KHONG do pool sau nhat cua ben thu ba." % SAN_LO)
     print("   🆕 THUOC B chi cham khi anh cu la CUNG MOT POOL. Khac pool -> ⬜ khong cham.")
+    print("   🆕 THUOC B do bang DON VI TOKEN DOI UNG (bStock), KHONG do bang USD —")
+    print("      pool cua lo cap voi NVDAB/AAPLB/BNCB... nen gia co phieu doi la so USD nhay theo.")
     print("   KHONG CO MOC BAN. May in phieu, Bean quyet.")
 
 
@@ -339,11 +344,25 @@ def do_pool(cands):
         def la_base(x):
             i = ((((x.get("relationships") or {}).get("base_token") or {}).get("data") or {}).get("id") or "").lower()
             return i.endswith(c["ca"])
+        # 🆕 D5: pool cua lo cap voi bStock (NVDAB, AAPLB, BNCB...). reserve_in_usd NHAY khi
+        #     GIA CO PHIEU DOI UNG doi, du khong ai mua ban con meme. Quy ve DON VI DOI UNG thi
+        #     mien nhiem: res_q = reserve_in_usd / gia_doi_ung.
+        p_la_base = ((((p.get("relationships") or {}).get("base_token") or {}).get("data") or {}).get("id") or "").lower().endswith(c["ca"])
+        gia_doi = so(a.get("quote_token_price_usd")) if p_la_base else so(a.get("base_token_price_usd"))
+        ten_pool = a.get("name") or ""
+        doi_ung = "?"
+        for phan in [x.strip() for x in ten_pool.split("/")]:
+            if phan and phan.split()[0].upper() != (c["ma"] or "").upper():
+                doi_ung = phan.split()[0]
+                break
+        res_q = (tien(p) / gia_doi) if gia_doi else None
+
         base_pools = [x for x in that if la_base(x)]
         r = max(base_pools, key=tien) if base_pools else None
         ra_ = (r.get("attributes") or {}) if r else {}
         doi = (ra_.get("price_change_percentage") or {}) if r else {}
         c.update({"res": tien(p), "pool": a.get("address"), "san": san(p),
+                  "doi_ung": doi_ung, "gia_doi": gia_doi, "res_q": res_q,
                   "gia": so(ra_.get("base_token_price_usd")) if r else None,
                   "gia_pool": (ra_.get("address") if r else None),
                   "vol1": so(vol.get("h1")) or 0.0, "vol24": so(vol.get("h24")) or 0.0,
@@ -359,10 +378,14 @@ def do_pool(cands):
 
 def khu_hoi_uoc(res, phi):
     """🔴 UOC, KHONG PHAI CUA CHAN. Tinh tren TONG POOL vi chua doc duoc tien doi ung that
-    cua PancakeSwap Infinity (tien nam o kho chung). Thieu ca phi pool khi GT khong khai."""
+    cua PancakeSwap Infinity (tien nam o kho chung).
+    🆕 18/09: GT de o phi RONG cho MOI pool cua lo, nen truoc day ham nay cong 0 phi va
+    bao khu hoi thap hon THAT hon ba lan. Trang token cua lo khai 2% moi chieu => dung PHI_LO
+    lam phi mac dinh khi GT khong khai."""
     if not res:
         return None
-    return 4 * CO_LENH / res * 100 + 2 * (phi or 0.0)
+    p = phi if phi is not None else PHI_LO
+    return 4 * CO_LENH / res * 100 + 2 * p
 
 
 # ---------- SO ANH CHUP ----------
@@ -371,7 +394,9 @@ def doc_anh_cu(path=SO_ANH):
     Anh thieu so thi khong lam moc: bai hoc #22 cua may Robinhood.
     Giu CA DANH SACH, khong chi anh moi nhat: may chay lech nhip hay Bean bam chay tay
     thi anh moi nhat co the cach 0 phut, luc do phai lui ve anh cu hon trong dai.
-    🆕 D3: doc duoc CA HAI kieu dong — kieu cu 13 cot (khong co pool) va kieu moi 15 cot."""
+    🆕 D3+D5: doc duoc BA kieu dong — kieu v1 13 cot (khong co pool), kieu v2 15 cot (co pool),
+    kieu v3 17 cot (them 'doi ung' + 'res doi ung'). Chi dong v3 moi cham duoc thuoc B bang
+    DON VI DOI UNG; dong cu hon thi lui ve do bang USD va phieu in canh bao."""
     gan = {}
     if not os.path.exists(path):
         return gan
@@ -384,17 +409,25 @@ def doc_anh_cu(path=SO_ANH):
         try:
             g = calendar.timegm(time.strptime(o[0][:16], "%Y-%m-%d %H:%M"))
             ca = o[2].strip("`").lower()
-            if len(o) >= 15:
+            doi = None; res_q = None
+            if len(o) >= 17:          # kieu v3: co cot 'doi ung' va 'res doi ung'
+                pool = o[3].strip("`").lower() or None
+                doi = o[5] or None
+                res = so(o[6].replace("$", "").replace(",", ""))
+                res_q = so(o[7].replace(",", ""))
+                vi = so(o[8].replace(",", ""))
+            elif len(o) >= 15:        # kieu v2: co pool, chua co doi ung
                 pool = o[3].strip("`").lower() or None
                 res = so(o[5].replace("$", "").replace(",", ""))
                 vi = so(o[6].replace(",", ""))
-            else:
+            else:                     # kieu v1: chua co pool
                 pool = None
                 res = so(o[3].replace("$", "").replace(",", ""))
                 vi = so(o[4].replace(",", ""))
             if res is None or vi is None:
                 continue
-            gan.setdefault(ca, []).append({"gio": g, "res": res, "vi": vi, "ma": o[1], "pool": pool})
+            gan.setdefault(ca, []).append({"gio": g, "res": res, "vi": vi, "ma": o[1],
+                                           "pool": pool, "doi": doi, "res_q": res_q})
         except Exception:
             pass
     for ca in gan:
@@ -428,12 +461,13 @@ def ghi_anh(rows, path=SO_ANH):
             f.write("> Muc dich: luot sau biet TIEN TRONG POOL va SO VI tang hay giam.\n")
             f.write("> Day la thu de giai doan 2 dat nguong. Giai doan 1 chua co muc tuyet doi.\n")
             f.write("> Cot 'pool' la POOL CUA LO. Thuoc B chi cham khi hai anh CUNG mot pool.\n\n")
-            f.write("| gio UTC | ma | dia chi | pool | san | tien trong pool | so vi | von hoa | gia | vol 1h | m30 | h6 | mua/ban h1 | tuoi | hang |\n")
-            f.write("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n")
+            f.write("| gio UTC | ma | dia chi | pool | san | doi ung | tien trong pool | res doi ung | so vi | von hoa | gia | vol 1h | m30 | h6 | mua/ban h1 | tuoi | hang |\n")
+            f.write("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n")
         for c in rows:
-            f.write("| %s | %s | `%s` | `%s` | %s | %s | %s | %s | %s | %s | %s | %s | %s | %.1fh | %s |\n" % (
-                g, c["ma"], c["ca"], c.get("pool") or "", c.get("san") or "",
+            f.write("| %s | %s | `%s` | `%s` | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %.1fh | %s |\n" % (
+                g, c["ma"], c["ca"], c.get("pool") or "", c.get("san") or "", c.get("doi_ung") or "?",
                 ("$" + format(int(c["res"]), ",")) if c.get("res") else "—",
+                ("%.6f" % c["res_q"]) if c.get("res_q") else "—",
                 format(int(c["vi"]), ",") if c.get("vi") else "—",
                 ("$" + format(int(c["mc"]), ",")) if c.get("mc") else "—",
                 ("%.10g" % c["gia"]) if c.get("gia") else "—",
@@ -550,6 +584,9 @@ def in_thuoc(c, anh, ly_anh=""):
     print("   pool CUA LO %s (%s) · %d pool cung token%s" % (
         (c.get("pool") or "?")[:18], c.get("san") or "?", c.get("npool", 0),
         (" · bo %d pool bao so vo ly" % c["pool_bo"]) if c.get("pool_bo") else ""))
+    print("   DOI UNG: %s @ $%s · res quy ve don vi doi ung: %s" % (
+        c.get("doi_ung") or "?", ("%.6g" % c["gia_doi"]) if c.get("gia_doi") else "?",
+        ("%.4f" % c["res_q"]) if c.get("res_q") else "⛔ khong quy duoc"))
     if c.get("ngoai"):
         dau = "🔴" if c["ngoai"] > c["res"] else "  "
         print("   %s pool BEN THU BA sau nhat: $%s (%s, %s)%s" % (
@@ -563,10 +600,20 @@ def in_thuoc(c, anh, ly_anh=""):
     print("   (so voi anh chup cach %.1f gio, CUNG pool %s)" % (cach, (anh.get("pool") or "?")[:18]))
     d_res = (c["res"] / anh["res"] - 1) * 100 if anh["res"] else None
     d_vi = (c["vi"] / anh["vi"] - 1) * 100 if (anh["vi"] and c.get("vi")) else None
-    print("   THUOC B tien con vao : $%s -> $%s (%s) %s" % (
-        format(int(anh["res"]), ","), format(int(c["res"]), ","),
-        ("%+.1f%%" % d_res) if d_res is not None else "?",
-        "✅ con vao" if (d_res or 0) > 0 else "🔴 tien dang ra"))
+    dung_q = (anh.get("res_q") and c.get("res_q") and anh.get("doi") == c.get("doi_ung"))
+    if dung_q:
+        d_q = (c["res_q"] / anh["res_q"] - 1) * 100
+        print("   THUOC B tien con vao : %.4f -> %.4f %s (%+.1f%%) %s" % (
+            anh["res_q"], c["res_q"], c.get("doi_ung") or "?", d_q,
+            "✅ con vao" if d_q > 0 else "🔴 tien dang ra"))
+        print("      (do bang DON VI DOI UNG — mien nhiem voi gia %s; bang USD la %s)" % (
+            c.get("doi_ung") or "?", ("%+.1f%%" % d_res) if d_res is not None else "?"))
+    else:
+        print("   THUOC B tien con vao : $%s -> $%s (%s) %s" % (
+            format(int(anh["res"]), ","), format(int(c["res"]), ","),
+            ("%+.1f%%" % d_res) if d_res is not None else "?",
+            "✅ con vao" if (d_res or 0) > 0 else "🔴 tien dang ra"))
+        print("      ⚠️ do bang USD vi anh cu chua co so don vi doi ung — co the nhieu vi gia %s doi" % (c.get("doi_ung") or "doi ung"))
     print("   THUOC C nguoi moi    : %s -> %s vi (%s) %s" % (
         format(int(anh["vi"]), ","), format(int(c["vi"] or 0), ","),
         ("%+.1f%%" % d_vi) if d_vi is not None else "?",
@@ -584,11 +631,20 @@ def cham_ba_thuoc(c, gan):
         return None, ly
     if not anh["res"] or not anh["vi"] or not c.get("vi"):
         return None, "thieu so mot trong hai dau"
-    b = c["res"] > anh["res"]
+    # 🆕 D5: uu tien so bang DON VI DOI UNG. Chi khi anh cu khong co so do moi lui ve do la.
+    dung_q = (anh.get("res_q") and c.get("res_q") and anh.get("doi") == c.get("doi_ung"))
+    if dung_q:
+        b = c["res_q"] > anh["res_q"]
+        c["nen_b"] = "don vi doi ung (%s)" % (c.get("doi_ung") or "?")
+        d_b = (c["res_q"] / anh["res_q"] - 1) * 100
+    else:
+        b = c["res"] > anh["res"]
+        c["nen_b"] = "⚠️ do bang USD — anh cu chua co so don vi doi ung, co the nhieu vi gia %s doi" % (c.get("doi_ung") or "doi ung")
+        d_b = (c["res"] / anh["res"] - 1) * 100
     cc = c["vi"] > anh["vi"]
     if b and cc:
         return True, "tien vao +%.1f%% · vi +%.1f%%" % (
-            (c["res"] / anh["res"] - 1) * 100, (c["vi"] / anh["vi"] - 1) * 100)
+            d_b, (c["vi"] / anh["vi"] - 1) * 100)
     return False, "%s%s" % ("" if b else "tien dang ra ", "" if cc else "nguoi dang bo di")
 
 
@@ -694,7 +750,8 @@ def main():
 
         kh = khu_hoi_uoc(c["res"], c.get("phi"))
         print("   KHU HOI UOC $%d: %.2f%% — ⬜ UOC tu TONG POOL, chua do tien doi ung that%s" % (
-            CO_LENH, kh, "" if c.get("phi") is not None else " (GT khong khai phi pool)"))
+            CO_LENH, kh, "" if c.get("phi") is not None else
+            " (GT khong khai phi pool — dung PHI_LO %.2f%%/chieu do lo tu khai)" % PHI_LO))
         if dat is True:
             ung.append(c)
             print("   ⇒ UNG VIEN 3/3 — dung dau ro, tien con vao, co nguoi moi (%s)" % ly_thuoc)
