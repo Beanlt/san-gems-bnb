@@ -70,6 +70,86 @@ GP_GIAN = 1.2          # 🆕 giãn moi cu GoPlus khi goi tung con
 TRANG_POOL = 3         # 🆕 so trang toi da cua tokens/<ca>/pools (20 pool moi trang)
 SO_ANH = "DO-DEM.md"
 LO_LO  = 20            # giu lai: tran cu cua tokens/multi, nay khong dung nua
+
+# ---------------------------------------------------------------------------
+# 🆕 v2.4 — LOP DE TU `SO.json` (Bean chot 18/09: "thu nao thuong update phai de o file de update")
+#
+#   Moi so o tren la SO MAC DINH, nam trong code, `kiemtra.py` van doc dung cho nay.
+#   Nhung SUA SO thi KHONG can dung toi file nay nua: sua `SO.json` o goc repo, ngay tren
+#   trinh duyet GitHub, mot dong, bam Commit. Lan chay sau may doc de len.
+#
+#   🔑 Khong co `SO.json`, hay file hong, hay khoa la, hay kieu sai -> may CHAY TIEP bang so
+#      mac dinh va IN RO ra phieu. Khong bao gio chet vi file cau hinh.
+#   🔑 Dau moi phieu may in: so nao bi de (cu -> moi), va VAN TAY sha256 cua chinh `SAN.py`
+#      dang chay. Doc phieu la biet repo dang chay ban nao, het canh file .md va repo lech
+#      nhau ma khong ai thay.
+#   🔴 File nay CHI chua SO va DANH SACH. Khong chua logic. Doi cach san van phai sua code.
+# ---------------------------------------------------------------------------
+SO_FILE = os.environ.get("SO_FILE", "SO.json")
+DE = {"da_de": [], "loi": "", "cvt": None}
+_SO_SO  = {"TUOI_MAX": float, "TOP_RO": int, "CACH_MIN": float, "CACH_MAX": float,
+           "RES_VO_LY": float, "RES_SAN": float, "VI_TO_MAX": float, "TOP10_MAX": float,
+           "CO_LENH": float, "PHI_LO": float, "GIO_KHONG_BAO_LAI": float,
+           "GT_GIAN": float, "GP_GIAN": float, "TRANG_POOL": int, "LO_LO": int}
+_SO_CHU = {"SAN_LO": str}
+
+
+def _nap_so():
+    """Doc SO.json neu co. Chi nhan khoa da biet, chi nhan kieu dung. Loi nao cung ghi lai
+    roi di tiep bang so mac dinh."""
+    if not os.path.exists(SO_FILE):
+        DE["loi"] = "khong co %s — dang chay bang so mac dinh trong SAN.py" % SO_FILE
+        return
+    try:
+        j = json.load(open(SO_FILE, encoding="utf-8"))
+    except Exception as e:
+        DE["loi"] = "%s HONG (%s) — bo qua, chay bang so mac dinh" % (SO_FILE, e)
+        return
+    g = globals()
+    for k, v in (j.get("nguong") or {}).items():
+        if k not in _SO_SO:
+            DE["da_de"].append("⚠️ bo qua khoa la '%s'" % k)
+            continue
+        try:
+            moi = _SO_SO[k](v)
+        except Exception:
+            DE["da_de"].append("⚠️ '%s' kieu sai, giu so cu" % k)
+            continue
+        if moi != g[k]:
+            DE["da_de"].append("%s %s -> %s" % (k, g[k], moi))
+            g[k] = moi
+    for k, f in _SO_CHU.items():
+        if k in (j.get("nguong") or {}):
+            continue
+        if k in j and isinstance(j[k], str) and j[k] != g.get(k):
+            DE["da_de"].append("%s %s -> %s" % (k, g.get(k), j[k]))
+            g[k] = j[k]
+    ht = j.get("hatang")
+    if isinstance(ht, dict) and ht:
+        n = 0
+        for a, ten in ht.items():
+            a = str(a).lower()
+            if a not in HATANG:
+                HATANG[a] = str(ten); n += 1
+        if n:
+            DE["da_de"].append("them %d dia chi ha tang" % n)
+    cp = j.get("co_phieu")
+    if isinstance(cp, list) and cp:
+        moi = {str(x).upper() for x in cp} - CO_PHIEU
+        if moi:
+            CO_PHIEU.update(moi)
+            DE["da_de"].append("them %d ma loai tu ten: %s" % (len(moi), " ".join(sorted(moi))))
+
+
+def van_tay():
+    """sha256 cua chinh file dang chay. In ra phieu de doi chieu voi ban trong SCRIPT.md."""
+    try:
+        import hashlib
+        return hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()[:16]
+    except Exception as e:
+        return "⛔ %s" % type(e).__name__
+
+
 T0 = time.time(); CU = [0]
 
 # 🔴 LOAI THANG TU TEN. Lo nay de ra day token mang ten co phieu that.
@@ -99,6 +179,12 @@ LO_KIEU = [
 
 def in_nguong():
     print("SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2 18/09) — GIAI DOAN 1: GHI SO, chua co muc tuyet doi")
+    print("   SAN.py dang chay: van tay sha256 %s · nguon so: %s"
+          % (van_tay(), (SO_FILE + " + so mac dinh") if not DE["loi"] else "CHI so mac dinh"))
+    if DE["loi"]:
+        print("   ⬜ %s" % DE["loi"])
+    for d in DE["da_de"]:
+        print("   🆕 SO.json de len: %s" % d)
     print("   BUOC 2 loc tho : da tot nghiep · tuoi <= %.0f gio · tien trong pool >= $%s · loai tu ten"
           % (TUOI_MAX, format(RES_SAN, ",")))
     print("   THUOC A tien vao pool : chi xet %d con day tien nhat RO CUNG LUOT (xep hang, khong phai muc)" % TOP_RO)
@@ -689,6 +775,7 @@ def cham_ba_thuoc(c, gan):
 def main():
     so_da_bao = sys.argv[1] if len(sys.argv) > 1 else None
     da_bao = doc_da_bao(so_da_bao)
+    _nap_so()
     gan = doc_anh_cu()
     gio = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
 

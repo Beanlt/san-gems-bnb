@@ -1,0 +1,57 @@
+{
+  "_doc": "SO CUA MAY SAN BNB. SUA O DAY, KHONG SUA SAN.py. Sua truc tiep tren GitHub web: bam file nay -> bieu tuong but chi -> sua so -> Commit changes. Luot chay sau tu doc.",
+  "_luat": "File nay CHI chua SO va DANH SACH, KHONG chua logic. Khoa la bi bo qua va in ra phieu. File hong thi may van chay bang so mac dinh trong SAN.py.",
+  "_ban": "1 · 2026-09-18",
+
+  "nguong": {
+    "TUOI_MAX": 48.0,
+    "TOP_RO": 5,
+    "CACH_MIN": 0.5,
+    "CACH_MAX": 3.0,
+    "RES_VO_LY": 50000000,
+    "RES_SAN": 20000,
+    "VI_TO_MAX": 5.0,
+    "TOP10_MAX": 25.0,
+    "CO_LENH": 250,
+    "PHI_LO": 2.0,
+    "GIO_KHONG_BAO_LAI": 12,
+    "GT_GIAN": 4.0,
+    "GP_GIAN": 1.2,
+    "TRANG_POOL": 3,
+    "LO_LO": 20
+  },
+
+  "_nguong_nghia": {
+    "TUOI_MAX": "gio. Con gia hon thi khong con la hang moi cua lo",
+    "TOP_RO": "THUOC A: chi xet N con day tien nhat ro cung luot. DAY LA CUA CHINH cua giai doan 1",
+    "CACH_MIN": "THUOC B: anh cu gan hon bao nhieu gio thi qua sat, khong cham",
+    "CACH_MAX": "THUOC B: anh cu xa hon bao nhieu gio thi khac tap, khong cham",
+    "RES_VO_LY": "do la: pool bao tien tu muc nay tro len thi coi la so rac, bo. Ca GCAT 17/09 bao 3,79 ty",
+    "RES_SAN": "do la: san tien trong pool. Muc tot nghiep cua lo khoang 11.000 do",
+    "VI_TO_MAX": "phan tram. Vi NGUOI to nhat duoc phep giu toi da",
+    "TOP10_MAX": "phan tram. Top 10 vi NGUOI duoc phep giu toi da",
+    "CO_LENH": "do la. CHI de tinh khu hoi uoc, KHONG phai goi y co lenh cho Bean",
+    "PHI_LO": "phan tram MOT CHIEU. Lo tu khai TOTAL TRADING FEE 2% tren trang token",
+    "GIO_KHONG_BAO_LAI": "gio. Da bao mot con roi thi bao nhieu gio sau moi bao lai",
+    "GT_GIAN": "giay gian moi cu GeckoTerminal. Do 18/09: ~12 cu cach 2,2 giay la an 429",
+    "GP_GIAN": "giay gian moi cu GoPlus khi goi tung con",
+    "TRANG_POOL": "so trang toi da cua tokens/<ca>/pools, 20 pool moi trang",
+    "LO_LO": "tran cu cua tokens/multi, giu lai cho tuong thich"
+  },
+
+  "SAN_LO": "pancakeswap-infinity",
+  "_SAN_LO_nghia": "san ma POOL CUA LO nam tren. Doi cai nay la doi dinh nghia THUOC A",
+
+  "hatang": {
+    "0x60c68b2c6ce7d2268f25a816f326843017d00384": "Locker genius.fun",
+    "0xff17f41c5efd6cce944af0912f300097d62df5c9": "Hook genius.fun",
+    "0x238a358808379702088667322f80ac48bad5e6c4": "PancakeSwap Infinity Vault (kho chung)",
+    "0x28e2ea090877bf75740558f6bfb36a5ffee9e9df": "Uniswap V4 Pool Manager tren BSC",
+    "0xb72102ac7b63ead66ecb75d67e43f281bfea3d74": "dia chi lo in tren trang token, chua dinh danh",
+    "0x4902c5ebc598265ed2212b559b042de8a5eeec3f": "BNCB, token doi ung cua lo"
+  },
+  "_hatang_nghia": "dia chi HE THONG, khong phai vi nguoi. Them vao day thi may bo chung khoi phep tinh vi to nhat va top10. Them nham mot vi NGUOI vao day la lam cua an toan long ra — chi them khi da biet chac.",
+
+  "co_phieu": [],
+  "_co_phieu_nghia": "them ma o day de LOAI THANG con mang ten do (vi du ma co phieu that). Danh sach goc nam trong SAN.py, day chi la phan THEM."
+}
