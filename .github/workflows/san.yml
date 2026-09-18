@@ -5,7 +5,9 @@ name: san-gems-bnb
 
 on:
   schedule:
-    - cron: '7,37 * * * *'
+    # MOI 2 TIENG, GIO LE, phut 17. Lech gio voi may Robinhood (giro chan) nen hai may khong dung nhau.
+    # v1 dat '7,37 * * * *' (48 luot/ngay) -> GitHub chi no 4 luot trong 14 gio. Xin it thi duoc du hon.
+    - cron: '17 1-23/2 * * *'
   workflow_dispatch:
 
 permissions:
