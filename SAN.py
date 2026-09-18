@@ -521,8 +521,38 @@ def goplus(ca_list):
     return ra, " · ".join(loi)
 
 
-def doc_goplus(g):
-    """Tra ve (chan?, dong in, vi_to, top10). 🔴 ma dong = CANH BAO, KHONG chan."""
+def loc_vi_7702(g):
+    """🆕 D6 (do 18/09 22:2x, 5/5 con lap lai duoc).
+    GoPlus danh `is_contract = 1` cho MOI dia chi co ma tren chuoi. Tu EIP-7702, mot VI NGUOI
+    BINH THUONG bat smart account cung co ma: dung 23 byte, dang 0xef0100 + 20 byte dia chi
+    uy quyen. May cu bo het nhung vi do khoi phep tinh top10 => TOP10 IN RA THAP HON THAT.
+    Do duoc: GSTOCK 2,30% -> 7,55% · GCAT 0xc458 2,93% -> 10,35% · AGI 12,21% -> 16,14%.
+    Ham nay goi eth_getCode MOT CU cho ca 10 dia chi, tra ve set dia chi la VI NGUOI 7702.
+    Loi RPC => tra ve None, va doc_goplus se in ro la chua loc duoc (KHONG im lang)."""
+    if not g:
+        return set()
+    dc = [(h.get("address") or "").lower() for h in (g.get("holders") or [])[:10]
+          if str(h.get("is_contract", "")).strip() == "1"
+          and (h.get("address") or "").lower() not in HATANG]
+    if not dc:
+        return set()
+    ok, d, ly = rpc([{"jsonrpc": "2.0", "id": i, "method": "eth_getCode",
+                      "params": [a, "latest"]} for i, a in enumerate(dc)])
+    if not ok or not isinstance(d, list):
+        return None
+    ra = set()
+    for x in d:
+        i = x.get("id")
+        ma = (x.get("result") or "")
+        if isinstance(i, int) and 0 <= i < len(dc) and ma.startswith("0xef0100"):
+            ra.add(dc[i])
+    return ra
+
+
+def doc_goplus(g, vi7702=None):
+    """Tra ve (chan?, dong in, vi_to, top10). 🔴 ma dong = CANH BAO, KHONG chan.
+    🆕 D6: `vi7702` la set dia chi GoPlus goi la hop dong nhung THUC RA la vi nguoi (EIP-7702).
+    None = chua loc duoc (RPC hong) => in canh bao, so top10 la SAN DUOI."""
     if g is None:
         return False, "   GOPLUS: ⛔ khong co du lieu con nay — KHONG BIET, khong phai sach", None, None
     canh = []
@@ -536,14 +566,18 @@ def doc_goplus(g):
     for c in ("is_honeypot", "cannot_sell_all"):
         if str(g.get(c, "")).strip() == "1":
             chan.append(c)
-    # vi nguoi = bo ha tang cua lo; giu ca vi 7702 (0xef0100) vi do la VI NGUOI
+    # vi nguoi = bo ha tang cua lo; 🆕 D6: GIU vi 7702 (0xef0100) vi do la VI NGUOI that
+    v7 = vi7702 if isinstance(vi7702, set) else set()
     nguoi = []
+    dem7 = 0
     for h in (g.get("holders") or [])[:10]:
         a = (h.get("address") or "").lower()
         if a in HATANG:
             continue
         if str(h.get("is_contract", "")).strip() == "1":
-            continue
+            if a not in v7:
+                continue
+            dem7 += 1
         p = so(h.get("percent"))
         if p is not None:
             nguoi.append(p * 100)
@@ -555,6 +589,10 @@ def doc_goplus(g):
         ("%.2f%%" % vi_to) if vi_to is not None else "⛔ khong doc duoc",
         ("%.2f%%" % top10) if top10 is not None else "⛔",
         ("\n   ⚠️ " + " · ".join(canh)) if canh else "")
+    if vi7702 is None:
+        dong += "\n   ⚠️ CHUA LOC DUOC VI EIP-7702 (RPC hong) — top10 tren la SAN DUOI, that co the cao hon"
+    elif dem7:
+        dong += "\n   🆕 da cong lai %d vi EIP-7702 ma GoPlus goi nham la hop dong (D6)" % dem7
     if chan:
         dong += "\n   🔴 GOPLUS CHAN: " + " · ".join(chan)
     return bool(chan), dong, vi_to, top10
@@ -737,7 +775,7 @@ def main():
             print("   CUA AN TOAN 🔴 LOAI: locker cua lo bao pool CHUA KHOA")
             continue
         print("   CUA AN TOAN: pool DA KHOA, locker giu %.2f%% cung (khong co duong rut — da doc ma)" % pct)
-        chan, dong_gp, vi_to, top10 = doc_goplus(gp.get(c["ca"]))
+        chan, dong_gp, vi_to, top10 = doc_goplus(gp.get(c["ca"]), loc_vi_7702(gp.get(c["ca"])))
         print(dong_gp)
         if chan:
             print("   🔴 LOAI O CUA AN TOAN — GoPlus chan")
