@@ -15,31 +15,31 @@ SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2 18/09) — GIAI DOAN 1
       pool cua lo cap voi NVDAB/AAPLB/BNCB... nen gia co phieu doi la so USD nhay theo.
    KHONG CO MOC BAN. May in phieu, Bean quyet.
 
-PHIEU BNB · 2026-09-20 19:26 UTC
+PHIEU BNB · 2026-09-20 23:15 UTC
    cong lo · header kieu tran      -> HTTP 403
    cong lo · header kieu day du    -> OK
 lo tra ve: 50 con
-qua loc tho: 8  (bo: chua tot nghiep 18 · qua gia 24 · loai tu ten 0)
-loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 1/8 con di tiep
+qua loc tho: 9  (bo: chua tot nghiep 14 · qua gia 27 · loai tu ten 0)
+loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 1/9 con di tiep
 do duoc pool cua lo: 1
 con tien trong pool >= $20,000: 1
 GoPlus: doc duoc 1/1 con
 
 CROW  0x35abc2ec5d2b36cfedba65563443201618d6f1bf   (CROW)
-   von hoa $31,672 · gia 3.481840285e-05 · tuoi 6.4 gio · gia doc o pool 0x85f9cd291473
-   doi gia: m30 +6.7% · h1 +20.9% · h6 -42.2% · h24 -20.2% · vol 1h $3,816 · mua/ban h1 41/40
-   THUOC A tien vao pool: $20,219 — hang 1/1 trong ro luot nay (cua: top 5)
-   pool CUA LO 0x85f9cd291473ffd7 (pancakeswap-infinity-clmm) · 27 pool cung token
-   DOI UNG: B13B @ $6.57565 · res quy ve don vi doi ung: 3074.8516
-      pool BEN THU BA sau nhat: $856 (CROW / USDT 9.76%, uniswap-v4-bsc)
-   THUOC B ⬜ CHUA CO ANH CU co du so — chua co anh cu co du so
+   von hoa $49,645 · gia 5.426945027e-05 · tuoi 10.2 gio · gia doc o pool 0x85f9cd291473
+   doi gia: m30 -25.5% · h1 +46.6% · h6 +85.0% · h24 +24.4% · vol 1h $19,210 · mua/ban h1 202/180
+   THUOC A tien vao pool: $24,486 — hang 1/1 trong ro luot nay (cua: top 5)
+   pool CUA LO 0x85f9cd291473ffd7 (pancakeswap-infinity-clmm) · 28 pool cung token
+   DOI UNG: B13B @ $6.59099 · res quy ve don vi doi ung: 3715.1485
+      pool BEN THU BA sau nhat: $846 (CROW / USDT 9.76%, uniswap-v4-bsc)
+   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 3.81 gio, ngoai dai 0.5-3.0
    THUOC C ⬜ chua cham duoc
-   CUA AN TOAN: pool DA KHOA, locker giu 8.48% cung (khong co duong rut — da doc ma)
-   GOPLUS: so vi 572 · thue mua/ban 0/0 · vi nguoi to nhat 5.77% · top10 nguoi 14.44%
-   🆕 da cong lai 4 vi EIP-7702 ma GoPlus goi nham la hop dong (D6)
-   🔴 LOAI O CUA AN TOAN — phan bo: vi to nhat 5.77% / top10 14.44%
+   CUA AN TOAN: pool DA KHOA, locker giu 8.49% cung (khong co duong rut — da doc ma)
+   GOPLUS: so vi 631 · thue mua/ban 0/0 · vi nguoi to nhat 5.78% · top10 nguoi 16.48%
+   🆕 da cong lai 3 vi EIP-7702 ma GoPlus goi nham la hop dong (D6)
+   🔴 LOAI O CUA AN TOAN — phan bo: vi to nhat 5.78% / top10 16.48%
 
 da ghi 1 dong anh chup vao DO-DEM.md
 UNG VIEN 3/3: 0 · —
 KHONG CO UNG VIEN MOI
-[8 cu · 19 giay]
+[8 cu · 18 giay]
