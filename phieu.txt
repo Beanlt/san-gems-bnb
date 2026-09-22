@@ -15,50 +15,50 @@ SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2 18/09) — GIAI DOAN 1
       pool cua lo cap voi NVDAB/AAPLB/BNCB... nen gia co phieu doi la so USD nhay theo.
    KHONG CO MOC BAN. May in phieu, Bean quyet.
 
-PHIEU BNB · 2026-09-22 06:14 UTC
+PHIEU BNB · 2026-09-22 12:37 UTC
    cong lo · header kieu tran      -> HTTP 403
    cong lo · header kieu day du    -> OK
 lo tra ve: 50 con
-qua loc tho: 12  (bo: chua tot nghiep 18 · qua gia 20 · loai tu ten 0)
-loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 3/12 con di tiep
+qua loc tho: 10  (bo: chua tot nghiep 20 · qua gia 20 · loai tu ten 0)
+loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 3/10 con di tiep
 do duoc pool cua lo: 3
 con tien trong pool >= $20,000: 3
 GoPlus: doc duoc 3/3 con
 
 GSTONK  0xc1e1ffea92c932eb0ff6c74fae43db477abc9165   (GSTONK)
-   von hoa $441,901 · gia 0.0004264580236 · tuoi 28.3 gio · gia doc o pool 0x7b0aab073263
-   doi gia: m30 +6.3% · h1 -7.0% · h6 -4.8% · h24 +8.6% · vol 1h $10,602 · mua/ban h1 63/49
-   THUOC A tien vao pool: $77,570 — hang 1/3 trong ro luot nay (cua: top 5)
+   von hoa $392,635 · gia 0.000411560761 · tuoi 34.6 gio · gia doc o pool 0x7b0aab073263
+   doi gia: m30 -5.3% · h1 -6.1% · h6 -17.7% · h24 -38.6% · vol 1h $4,950 · mua/ban h1 40/22
+   THUOC A tien vao pool: $71,461 — hang 1/3 trong ro luot nay (cua: top 5)
    pool CUA LO 0x7b0aab073263f99a (pancakeswap-infinity-clmm) · 24 pool cung token
-   DOI UNG: GSTOCK @ $0.0289994 · res quy ve don vi doi ung: 2674916.9512
-      pool BEN THU BA sau nhat: $10,758 (GSTONK / USDT 1.5%, uniswap-v4-bsc)
-   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 6.11 gio, ngoai dai 0.5-3.0
+   DOI UNG: GSTOCK @ $0.0248704 · res quy ve don vi doi ung: 2873357.0278
+      pool BEN THU BA sau nhat: $8,929 (GSTONK / USDT 1.5%, uniswap-v4-bsc)
+   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 6.38 gio, ngoai dai 0.5-3.0
    THUOC C ⬜ chua cham duoc
    CUA AN TOAN 🔴 LOAI: locker cua lo bao pool CHUA KHOA
 
 GFUND  0xf62948133de2c4e17352fc7d5163f2bdae844ca3   (GFUND)
-   von hoa $152,529 · gia 0.000171727264 · tuoi 17.5 gio · gia doc o pool 0xd5f6de8aa1f5
-   doi gia: m30 +15.8% · h1 -0.7% · h6 +25.7% · h24 +18.2% · vol 1h $10,596 · mua/ban h1 101/55
-   THUOC A tien vao pool: $36,347 — hang 2/3 trong ro luot nay (cua: top 5)
-   pool CUA LO 0x181b4a831088a1f3 (pancakeswap-infinity-clmm) · 32 pool cung token
-   DOI UNG: B13B @ $6.25412 · res quy ve don vi doi ung: 5811.7622
-      pool BEN THU BA sau nhat: $2,237 (GFUND / USDT 7.777%, uniswap-v4-bsc)
-   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 6.11 gio, ngoai dai 0.5-3.0
+   von hoa $55,404 · gia 5.990564376e-05 · tuoi 23.9 gio · gia doc o pool 0xd5f6de8aa1f5
+   doi gia: m30 -18.7% · h1 -8.9% · h6 -72.8% · h24 -58.8% · vol 1h $8,807 · mua/ban h1 77/43
+   THUOC A tien vao pool: $39,482 — hang 2/3 trong ro luot nay (cua: top 5)
+   pool CUA LO 0x181b4a831088a1f3 (pancakeswap-infinity-clmm) · 33 pool cung token
+   DOI UNG: B13B @ $6.35558 · res quy ve don vi doi ung: 6212.2493
+      pool BEN THU BA sau nhat: $1,541 (GFUND / USDT 7.777%, uniswap-v4-bsc)
+   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 6.38 gio, ngoai dai 0.5-3.0
    THUOC C ⬜ chua cham duoc
    CUA AN TOAN 🔴 LOAI: locker cua lo bao pool CHUA KHOA
 
 MILAN  0x5c9ff301ec2d882b635813739cc07330788d7322   (Milan the pug)
-   von hoa $66,745 · gia 6.692382945e-05 · tuoi 37.0 gio · gia doc o pool 0x4564c96d6c4a
-   doi gia: m30 -3.0% · h1 -2.7% · h6 -29.0% · h24 +11.0% · vol 1h $395 · mua/ban h1 7/6
-   THUOC A tien vao pool: $25,273 — hang 3/3 trong ro luot nay (cua: top 5)
+   von hoa $71,782 · gia 8.403739678e-05 · tuoi 43.4 gio · gia doc o pool 0x4564c96d6c4a
+   doi gia: m30 -13.8% · h1 +1.8% · h6 +24.3% · h24 +126.2% · vol 1h $1,254 · mua/ban h1 9/8
+   THUOC A tien vao pool: $28,410 — hang 3/3 trong ro luot nay (cua: top 5)
    pool CUA LO 0x4564c96d6c4a58b9 (pancakeswap-infinity-clmm) · 7 pool cung token
-   DOI UNG: BNB @ $786.2 · res quy ve don vi doi ung: 32.1463
-      pool BEN THU BA sau nhat: $557 (MILAN / USDT 3%, uniswap-v4-bsc)
-   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 6.11 gio, ngoai dai 0.5-3.0
+   DOI UNG: BNB @ $787.12 · res quy ve don vi doi ung: 36.0941
+      pool BEN THU BA sau nhat: $624 (MILAN / USDT 3%, uniswap-v4-bsc)
+   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 6.38 gio, ngoai dai 0.5-3.0
    THUOC C ⬜ chua cham duoc
    CUA AN TOAN 🔴 LOAI: locker cua lo bao pool CHUA KHOA
 
 da ghi 3 dong anh chup vao DO-DEM.md
 UNG VIEN 3/3: 0 · —
 KHONG CO UNG VIEN MOI
-[15 cu · 79 giay]
+[14 cu · 36 giay]
