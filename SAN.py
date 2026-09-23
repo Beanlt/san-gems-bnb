@@ -24,6 +24,14 @@
 #   D3 so anh chup khong ghi pool            -> them cot pool va san, thuoc B chi cham CUNG POOL
 #   D4 GoPlus goi ca lo tra ve thieu         -> goi TUNG CON
 #   va: buoc 1 hong thi in bang CONG de biet cho nao tac, khong doan.
+#
+# v2.5 (23/09) — LO CO NHIEU BAN HOP DONG ("stack"), MOI BAN MOT LOCKER RIENG:
+#   Ban 4.2 len luc 21/09 22:14 UTC voi locker/hook/escrow MOI. May cu go cung locker ban 4.1
+#   =>  hoi locker 4.1 ve con ban 4.2 thi tra 0  =>  in "CHUA KHOA" va LOAI OAN.
+#   Do tren chuoi 23/09, 35/35 con da tot nghiep: ban 4.2 -> locker moi 1 / locker cu 0,
+#   ban 4.1 -> locker cu 1 / locker moi 0. Ca 5 con trong dai 48 gio luc do deu la ban 4.2.
+#   Vá: doc stack_id cua tung con, lay locker cua DUNG ban do (API /contracts, du phong STACKS).
+#   Khong biet locker cua ban => ⛔ khong ket luan, KHONG LOAI.
 import json, time, calendar, sys, os, urllib.request, urllib.error
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -46,6 +54,45 @@ HATANG = {
     "0x78eae9537c0ef90dfe9b7ae964682fe8138afe31": "Factory",
     "0x000000000000000000000000000000000000dead": "vi dot",
 }
+# 🆕 v2.5: MOI BAN HOP DONG CUA LO. Nguon: genius.fun/api/launchpad/v1/contracts (doc 23/09).
+#    Luc chay may doc lai API do va DE len bang nay; API hong thi dung bang nay.
+#    Locker 4.2 da doc ma may 23/09: GIONG HET locker 4.1 tung byte (1.928 byte) => cung khong co duong rut.
+STACKS = {
+    "bnb-mainnet-m4.1": {
+        "locker": "0x60c68b2c6ce7d2268f25a816f326843017d00384",
+        "hook": "0xff17f41c5efd6cce944af0912f300097d62df5c9",
+        "feeEscrow": "0xff8a2ae655e5851cb414ac5ab41b311da4287281",
+        "router": "0x2ef00378984e84f2daa08dfb5fb03bbde2038ae6",
+        "buybackVault": "0x6ecbe74e6cf896c610c34a3be59bd54c5a5b784e",
+        "foundationVault": "0xf1200f24c38ddce80a3f0cf26606f047c8ebe49b",
+        "factory": "0x78eae9537c0ef90dfe9b7ae964682fe8138afe31",
+    },
+    "bnb-mainnet-m4.2": {
+        "locker": "0x9109522ff8125394edb44b8eeb87ad946d893194",
+        "hook": "0x8e6f8ebbd62b60085b703c40b460dae802edc51b",
+        "feeEscrow": "0xc2f95799285109d076275a1ee298849a6fbd611a",
+        "router": "0xd8b71b46498a36a4607eab5c735bee1dab7f263d",
+        "buybackVault": "0xd275e7eebef0a6946130a535a106b2ca8cb922ca",
+        "foundationVault": "0x3b7b991ce5ea00389cba440c2ccd4adcb1ee28ef",
+        "factory": "0x37ee8aee29c5efd3c1a7eda6df3f510779928a37",
+        "swapAndBuy": "0xe0d1764c6eb7b1371a891a9d8af9994ac058c108",
+        "launchDeployer": "0xdbcfbeb2849c0a7dfac8b302ff9cf1471f7859a3",
+        "graduationExecutor": "0x0048079cde5a0670502600dc7270952687f5f037",
+        "graduationGuard": "0xc41be12e827d38223e1dc95093a9159a3e0b1a92",
+    },
+}
+STACK_NGUON = ["bang co san trong SAN.py"]
+
+
+def nap_ha_tang_stack():
+    """Moi dia chi cua moi ban deu la HA TANG, khong phai vi nguoi -> dua vao HATANG."""
+    for sid, d in STACKS.items():
+        for k, a in d.items():
+            a = (a or "").lower()
+            if a.startswith("0x") and len(a) == 42 and a not in HATANG:
+                HATANG[a] = "%s %s" % (k, sid.split("-")[-1])
+
+
 SEL_ISLOCKED = "0x4a4fbeec"   # isLocked(address)
 SEL_LOCKEDSUPPLY = "0x732e78e4"  # lockedTokenSupply(address)
 SEL_TOTALSUPPLY = "0x18160ddd"
@@ -178,7 +225,7 @@ LO_KIEU = [
 
 
 def in_nguong():
-    print("SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2 18/09) — GIAI DOAN 1: GHI SO, chua co muc tuyet doi")
+    print("SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2.5 23/09) — GIAI DOAN 1: GHI SO, chua co muc tuyet doi")
     print("   SAN.py dang chay: van tay sha256 %s · nguon so: %s"
           % (van_tay(), (SO_FILE + " + so mac dinh") if not DE["loi"] else "CHI so mac dinh"))
     if DE["loi"]:
@@ -190,7 +237,7 @@ def in_nguong():
     print("   THUOC A tien vao pool : chi xet %d con day tien nhat RO CUNG LUOT (xep hang, khong phai muc)" % TOP_RO)
     print("   THUOC B con vao tiep  : tien trong pool TANG so anh chup cach %.1f-%.1f gio" % (CACH_MIN, CACH_MAX))
     print("   THUOC C nguoi moi     : so vi TANG so cung anh chup do")
-    print("   BUOC 4 cua an toan    : pool phai KHOA (doc isLocked cua locker lo) ·")
+    print("   BUOC 4 cua an toan    : pool phai KHOA (doc isLocked o locker CUA DUNG BAN hop dong con do) ·")
     print("                           vi nguoi to nhat <=%.0f%% · top10 <=%.0f%% (GoPlus 56, da loc ha tang)" % (VI_TO_MAX, TOP10_MAX))
     print("   🔴 MA HOP DONG DONG = CANH BAO, KHONG LOAI. Ca lo nay deu ma dong (do 3 con 17/09).")
     print("   🔴 KHU HOI chi la UOC tu TONG POOL — chua do duoc tien doi ung that (viec treo #1).")
@@ -281,6 +328,44 @@ def in_cong():
 
 
 # ---------- BUOC 1: DANH SACH TU LO ----------
+LO_HD = [None]
+
+
+def doc_stacks():
+    """🆕 v2.5: doc /contracts cua lo, DE dia chi moi ban len STACKS. 1 cu.
+    Hong -> giu bang co san, in ro. Chay thu (LO_FILE) -> doc CONTRACTS_FILE neu co, khong goi mang."""
+    f = os.environ.get("CONTRACTS_FILE")
+    if os.environ.get("LO_FILE") and not (f and os.path.exists(f)):
+        return "chay thu — dung bang co san"
+    if f and os.path.exists(f):
+        j = json.load(open(f, encoding="utf-8"))
+        ok, ly = True, ""
+    else:
+        ok, j, ly = get_lai("%s/contracts" % LO, headers=LO_HD[0])
+    if not ok:
+        return "⛔ /contracts %s — dung bang co san" % ly
+    moi = []
+    for st in (j.get("stacks") or []):
+        sid = st.get("stackId")
+        if not sid:
+            continue
+        d = {}
+        for k, v in (st.get("contracts") or {}).items():
+            a = (v.get("address") if isinstance(v, dict) else v) or ""
+            if isinstance(a, str) and a.startswith("0x") and len(a) == 42:
+                d[k] = a.lower()
+        if not d.get("locker"):
+            continue
+        cu = STACKS.get(sid, {}).get("locker")
+        if cu and cu != d["locker"]:
+            moi.append("🔴 %s DOI LOCKER %s -> %s" % (sid, cu, d["locker"]))
+        elif not cu:
+            moi.append("🆕 ban moi %s (%s) locker %s" % (sid, st.get("status") or "?", d["locker"]))
+        STACKS.setdefault(sid, {}).update(d)
+    STACK_NGUON[0] = "API /contracts"
+    return " · ".join(moi)
+
+
 def danh_sach():
     """Tra ve (danh sach con, ly do loi). File trong bien moi truong LO_FILE thay cho cu goi
     (chi dung khi chay thu o may khong goi duoc lo).
@@ -295,6 +380,7 @@ def danh_sach():
         ok, j, ly = get_lai(url, headers=hd)
         print("   cong lo · header kieu %-9s -> %s" % (ten, "OK" if ok else ly))
         if ok:
+            LO_HD[0] = hd
             return (j.get("items") or j.get("data") or j or []), ""
         lydo.append("%s=%s" % (ten, ly))
         time.sleep(2)
@@ -328,7 +414,8 @@ def loc_tho(ds):
         ra.append({"ca": (t.get("token") or "").lower(), "ma": t.get("symbol") or "?",
                    "ten": t.get("name") or "", "vi": so(t.get("holders_count")),
                    "mc": so(t.get("market_cap_usd")), "tuoi": tuoi,
-                   "deployer": (t.get("deployer") or "").lower()})
+                   "deployer": (t.get("deployer") or "").lower(),
+                   "stack": t.get("stack_id") or ""})
     return ra, dem
 
 
@@ -566,13 +653,15 @@ def ghi_anh(rows, path=SO_ANH):
 
 
 # ---------- BUOC 4: CUA AN TOAN ----------
-def khoa_pool(ca):
-    """Doc locker cua lo: isLocked + lockedTokenSupply. Tra ve (khoa?, % cung khoa, loi)."""
+def khoa_pool(ca, locker=None):
+    """Doc locker cua lo: isLocked + lockedTokenSupply. Tra ve (khoa?, % cung khoa, loi).
+    🆕 v2.5: locker la locker CUA BAN HOP DONG con do thuoc ve (STACKS), khong con go cung."""
+    locker = locker or LOCKER
     ok, d, ly = rpc([
         {"jsonrpc": "2.0", "id": 1, "method": "eth_call",
-         "params": [{"to": LOCKER, "data": SEL_ISLOCKED + pad(ca)}, "latest"]},
+         "params": [{"to": locker, "data": SEL_ISLOCKED + pad(ca)}, "latest"]},
         {"jsonrpc": "2.0", "id": 2, "method": "eth_call",
-         "params": [{"to": LOCKER, "data": SEL_LOCKEDSUPPLY + pad(ca)}, "latest"]},
+         "params": [{"to": locker, "data": SEL_LOCKEDSUPPLY + pad(ca)}, "latest"]},
         {"jsonrpc": "2.0", "id": 3, "method": "eth_call",
          "params": [{"to": ca, "data": SEL_TOTALSUPPLY}, "latest"]}])
     if not ok:
@@ -788,6 +877,17 @@ def main():
         print("[%d cu · %.0f giay]" % (CU[0], time.time() - T0))
         return
     print("lo tra ve: %d con" % len(ds))
+    ghi_st = doc_stacks()
+    nap_ha_tang_stack()
+    dem_st = {}
+    for t in ds:
+        dem_st[t.get("stack_id") or "?"] = dem_st.get(t.get("stack_id") or "?", 0) + 1
+    print("ban hop dong: %s · nguon locker: %s%s" % (
+        " · ".join("%s %d con" % (k, v) for k, v in sorted(dem_st.items())), STACK_NGUON[0],
+        ("\n   " + ghi_st) if ghi_st else ""))
+    la = [k for k in dem_st if k not in STACKS]
+    if la:
+        print("   ⛔ ban LA chua co locker: %s — con thuoc ban nay se ⛔ o cua an toan, KHONG bi loai" % " ".join(la))
     if not ds:
         print("⛔ LO TRA VE RONG — loi goi hay lo im, KHONG ket luan.")
         in_cong()
@@ -853,15 +953,20 @@ def main():
             print("   BO QUA: da bao trong %d gio qua" % GIO_KHONG_BAO_LAI)
             continue
 
-        khoa, pct, loi_khoa = khoa_pool(c["ca"])
+        lk = (STACKS.get(c.get("stack")) or {}).get("locker")
+        if not lk:
+            print("   CUA AN TOAN ⛔ khong biet locker cua ban '%s' — KHONG ket luan, KHONG loai" % (c.get("stack") or "?"))
+            continue
+        khoa, pct, loi_khoa = khoa_pool(c["ca"], lk)
         time.sleep(0.5)
         if loi_khoa:
             print("   CUA AN TOAN ⛔ %s" % loi_khoa)
             continue
         if not khoa:
-            print("   CUA AN TOAN 🔴 LOAI: locker cua lo bao pool CHUA KHOA")
+            print("   CUA AN TOAN 🔴 LOAI: locker ban %s (%s) bao pool CHUA KHOA" % (c.get("stack") or "?", lk))
             continue
-        print("   CUA AN TOAN: pool DA KHOA, locker giu %.2f%% cung (khong co duong rut — da doc ma)" % pct)
+        print("   CUA AN TOAN: pool DA KHOA · ban %s · locker %s giu %.2f%% cung (khong co duong rut — da doc ma)"
+              % (c.get("stack") or "?", lk, pct))
         chan, dong_gp, vi_to, top10 = doc_goplus(gp.get(c["ca"]), loc_vi_7702(gp.get(c["ca"])))
         print(dong_gp)
         if chan:
