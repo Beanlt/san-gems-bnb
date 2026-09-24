@@ -15,62 +15,61 @@ SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2.5 23/09) — GIAI DOAN
       pool cua lo cap voi NVDAB/AAPLB/BNCB... nen gia co phieu doi la so USD nhay theo.
    KHONG CO MOC BAN. May in phieu, Bean quyet.
 
-PHIEU BNB · 2026-09-23 22:17 UTC
+PHIEU BNB · 2026-09-24 01:24 UTC
    cong lo · header kieu tran      -> HTTP 403
    cong lo · header kieu day du    -> OK
 lo tra ve: 50 con
-ban hop dong: bnb-mainnet-m4.1 31 con · bnb-mainnet-m4.2 19 con · nguon locker: API /contracts
-qua loc tho: 5  (bo: chua tot nghiep 20 · qua gia 25 · loai tu ten 0)
+ban hop dong: bnb-mainnet-m4.1 33 con · bnb-mainnet-m4.2 17 con · nguon locker: API /contracts
+qua loc tho: 5  (bo: chua tot nghiep 17 · qua gia 28 · loai tu ten 0)
 loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 3/5 con di tiep
 do duoc pool cua lo: 3
 con tien trong pool >= $20,000: 3
 GoPlus: doc duoc 3/3 con
 
 GPU  0x3970dae108d4bdefd3d78c2ec3847ef0e93d6666   (Genius Processing Unit)
-   von hoa $326,861 · gia 0.0003858825436 · tuoi 12.9 gio · gia doc o pool 0x019ccabf2ba9
-   doi gia: m30 +0.2% · h1 +0.2% · h6 -18.0% · h24 +401.0% · vol 1h $19,711 · mua/ban h1 87/75
-   THUOC A tien vao pool: $54,716 — hang 1/3 trong ro luot nay (cua: top 5)
+   von hoa $372,179 · gia 0.0004032686783 · tuoi 16.0 gio · gia doc o pool 0x019ccabf2ba9
+   doi gia: m30 -0.1% · h1 +4.7% · h6 +4.7% · h24 +423.6% · vol 1h $21,212 · mua/ban h1 112/111
+   THUOC A tien vao pool: $56,066 — hang 1/3 trong ro luot nay (cua: top 5)
    pool CUA LO 0x019ccabf2ba92725 (pancakeswap-infinity-clmm) · 60 pool cung token
-   DOI UNG: AGPUB @ $11.8329 · res quy ve don vi doi ung: 4624.0705
-      pool BEN THU BA sau nhat: $12,629 (GPU / USDT 4%, uniswap-v4-bsc)
-   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 3.24 gio, ngoai dai 0.5-3.0
+   DOI UNG: AGPUB @ $11.9641 · res quy ve don vi doi ung: 4686.2086
+      pool BEN THU BA sau nhat: $16,502 (GPU / USDT 4%, uniswap-v4-bsc)
+   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 3.12 gio, ngoai dai 0.5-3.0
    THUOC C ⬜ chua cham duoc
    CUA AN TOAN: pool DA KHOA · ban bnb-mainnet-m4.2 · locker 0x9109522ff8125394edb44b8eeb87ad946d893194 giu 8.30% cung (khong co duong rut — da doc ma)
-   GOPLUS: so vi 1619 · thue mua/ban 0/0 · vi nguoi to nhat 1.97% · top10 nguoi 10.29%
+   GOPLUS: so vi 1570 · thue mua/ban 0/0 · vi nguoi to nhat 1.97% · top10 nguoi 10.50%
    🆕 da cong lai 7 vi EIP-7702 ma GoPlus goi nham la hop dong (D6)
-   KHU HOI UOC $250: 5.83% — ⬜ UOC tu TONG POOL, chua do tien doi ung that (GT khong khai phi pool — dung PHI_LO 2.00%/chieu do lo tu khai)
-   ⇒ THEO DOI — qua cua an toan, nhung anh cu gan nhat cach 3.24 gio, ngoai dai 0.5-3.0
-
-GPU  0x51c3ac12dd9a82fbf257041c739a936adbc96666   (Generational Pump Unit)
-   von hoa $271,836 · gia 0.000261387687 · tuoi 1.5 gio · gia doc o pool 0x0cd7a6ecb166
-   doi gia: m30 +143.7% · h1 +200.3% · h6 +61.7% · h24 +61.7% · vol 1h $27,028 · mua/ban h1 149/81
-   THUOC A tien vao pool: $44,877 — hang 2/3 trong ro luot nay (cua: top 5)
-   pool CUA LO 0x0cd7a6ecb1665697 (pancakeswap-infinity-clmm) · 7 pool cung token
-   DOI UNG: AGPUB @ $11.8329 · res quy ve don vi doi ung: 3792.5968
-      pool BEN THU BA sau nhat: $538 (GPU / USDT 25%, uniswap-v4-bsc)
-   THUOC B ⬜ CHUA CO ANH CU co du so — chua co anh cu co du so
-   THUOC C ⬜ chua cham duoc
-   CUA AN TOAN: pool DA KHOA · ban bnb-mainnet-m4.2 · locker 0x9109522ff8125394edb44b8eeb87ad946d893194 giu 8.19% cung (khong co duong rut — da doc ma)
-   GOPLUS: so vi 0 · thue mua/ban 0/0 · vi nguoi to nhat ⛔ khong doc duoc · top10 nguoi ⛔
-   ⛔ khong doc duoc phan bo vi — KHONG ket luan sach
-   KHU HOI UOC $250: 6.23% — ⬜ UOC tu TONG POOL, chua do tien doi ung that (GT khong khai phi pool — dung PHI_LO 2.00%/chieu do lo tu khai)
-   ⇒ THEO DOI — qua cua an toan, nhung chua co anh cu co du so
+   KHU HOI UOC $250: 5.78% — ⬜ UOC tu TONG POOL, chua do tien doi ung that (GT khong khai phi pool — dung PHI_LO 2.00%/chieu do lo tu khai)
+   ⇒ THEO DOI — qua cua an toan, nhung anh cu gan nhat cach 3.12 gio, ngoai dai 0.5-3.0
 
 conviction  0xfca977c3fb406b8ed76c53620bc6eedd382f6666   (max conviction)
-   von hoa $82,049 · gia 6.852601351e-05 · tuoi 9.9 gio · gia doc o pool 0x8820fbcc0e9a
-   doi gia: m30 +0.0% · h1 -29.1% · h6 -76.6% · h24 -84.2% · vol 1h $498 · mua/ban h1 10/14
-   THUOC A tien vao pool: $34,109 — hang 3/3 trong ro luot nay (cua: top 5)
+   von hoa $62,271 · gia 6.617226231e-05 · tuoi 13.0 gio · gia doc o pool 0x8820fbcc0e9a
+   doi gia: m30 +0.0% · h1 +4.4% · h6 +4.6% · h24 -84.7% · vol 1h $1,008 · mua/ban h1 12/35
+   THUOC A tien vao pool: $32,328 — hang 2/3 trong ro luot nay (cua: top 5)
    pool CUA LO 0xb75f20400d3c561c (pancakeswap-infinity-clmm) · 9 pool cung token
-   DOI UNG: B13B @ $6.1124 · res quy ve don vi doi ung: 5580.4425
-      pool BEN THU BA sau nhat: $662 (conviction / BNB 13%, uniswap-v4-bsc)
-   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 3.24 gio, ngoai dai 0.5-3.0
+   DOI UNG: B13B @ $6.08996 · res quy ve don vi doi ung: 5308.4525
+      pool BEN THU BA sau nhat: $577 (conviction / BNB 13%, uniswap-v4-bsc)
+   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 3.12 gio, ngoai dai 0.5-3.0
    THUOC C ⬜ chua cham duoc
    CUA AN TOAN: pool DA KHOA · ban bnb-mainnet-m4.2 · locker 0x9109522ff8125394edb44b8eeb87ad946d893194 giu 8.23% cung (khong co duong rut — da doc ma)
-   GOPLUS: so vi 3820 · thue mua/ban 0/0 · vi nguoi to nhat 4.48% · top10 nguoi 10.99%
-   KHU HOI UOC $250: 6.93% — ⬜ UOC tu TONG POOL, chua do tien doi ung that (GT khong khai phi pool — dung PHI_LO 2.00%/chieu do lo tu khai)
-   ⇒ THEO DOI — qua cua an toan, nhung anh cu gan nhat cach 3.24 gio, ngoai dai 0.5-3.0
+   GOPLUS: so vi 3776 · thue mua/ban 0/0 · vi nguoi to nhat 4.48% · top10 nguoi 10.99%
+   KHU HOI UOC $250: 7.09% — ⬜ UOC tu TONG POOL, chua do tien doi ung that (GT khong khai phi pool — dung PHI_LO 2.00%/chieu do lo tu khai)
+   ⇒ THEO DOI — qua cua an toan, nhung anh cu gan nhat cach 3.12 gio, ngoai dai 0.5-3.0
+
+GPU  0x51c3ac12dd9a82fbf257041c739a936adbc96666   (Generational Pump Unit)
+   von hoa $89,305 · gia 9.208017698e-05 · tuoi 4.6 gio · gia doc o pool 0x0cd7a6ecb166
+   doi gia: m30 -3.8% · h1 -2.9% · h6 -43.0% · h24 -43.0% · vol 1h $1,260 · mua/ban h1 7/145
+   THUOC A tien vao pool: $26,729 — hang 3/3 trong ro luot nay (cua: top 5)
+   pool CUA LO 0x0cd7a6ecb1665697 (pancakeswap-infinity-clmm) · 7 pool cung token
+   DOI UNG: AGPUB @ $11.9644 · res quy ve don vi doi ung: 2234.0909
+      pool BEN THU BA sau nhat: $733 (GPU / USDT 25%, uniswap-v4-bsc)
+   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 3.13 gio, ngoai dai 0.5-3.0
+   THUOC C ⬜ chua cham duoc
+   CUA AN TOAN: pool DA KHOA · ban bnb-mainnet-m4.2 · locker 0x9109522ff8125394edb44b8eeb87ad946d893194 giu 8.20% cung (khong co duong rut — da doc ma)
+   GOPLUS: so vi 218 · thue mua/ban 0/0 · vi nguoi to nhat 24.64% · top10 nguoi 41.00%
+   🆕 da cong lai 1 vi EIP-7702 ma GoPlus goi nham la hop dong (D6)
+   🔴 LOAI O CUA AN TOAN — phan bo: vi to nhat 24.64% / top10 41.00%
 
 da ghi 3 dong anh chup vao DO-DEM.md
 UNG VIEN 3/3: 0 · —
 KHONG CO UNG VIEN MOI
-[16 cu · 36 giay]
+[18 cu · 80 giay]
