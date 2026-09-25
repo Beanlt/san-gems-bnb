@@ -15,32 +15,15 @@ SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2.5 23/09) — GIAI DOAN
       pool cua lo cap voi NVDAB/AAPLB/BNCB... nen gia co phieu doi la so USD nhay theo.
    KHONG CO MOC BAN. May in phieu, Bean quyet.
 
-PHIEU BNB · 2026-09-25 14:36 UTC
+PHIEU BNB · 2026-09-25 19:15 UTC
    cong lo · header kieu tran      -> HTTP 403
    cong lo · header kieu day du    -> OK
 lo tra ve: 50 con
-ban hop dong: bnb-mainnet-m4.1 31 con · bnb-mainnet-m4.2 19 con · nguon locker: API /contracts
-qua loc tho: 2  (bo: chua tot nghiep 12 · qua gia 36 · loai tu ten 0)
-loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 1/2 con di tiep
-do duoc pool cua lo: 1
-con tien trong pool >= $20,000: 1
-GoPlus: doc duoc 1/1 con
-
-GPU  0x51c3ac12dd9a82fbf257041c739a936adbc96666   (Generational Pump Unit)
-   von hoa $81,740 · gia 8.296675632e-05 · tuoi 41.8 gio · gia doc o pool 0x0cd7a6ecb166
-   doi gia: m30 -6.4% · h1 -10.9% · h6 -7.5% · h24 -7.8% · vol 1h $633 · mua/ban h1 2/41
-   THUOC A tien vao pool: $24,866 — hang 1/1 trong ro luot nay (cua: top 5)
-   pool CUA LO 0x0cd7a6ecb1665697 (pancakeswap-infinity-clmm) · 7 pool cung token
-   DOI UNG: AGPUB @ $11.3994 · res quy ve don vi doi ung: 2181.3523
-      pool BEN THU BA sau nhat: $442 (GPU / USDT 97%, uniswap-v4-bsc)
-   THUOC B ⬜ CHUA CO ANH CU co du so — anh cu gan nhat cach 16.20 gio, ngoai dai 0.5-3.0
-   THUOC C ⬜ chua cham duoc
-   CUA AN TOAN: pool DA KHOA · ban bnb-mainnet-m4.2 · locker 0x9109522ff8125394edb44b8eeb87ad946d893194 giu 8.20% cung (khong co duong rut — da doc ma)
-   GOPLUS: so vi 215 · thue mua/ban 0/0 · vi nguoi to nhat 17.11% · top10 nguoi 39.70%
-   🆕 da cong lai 1 vi EIP-7702 ma GoPlus goi nham la hop dong (D6)
-   🔴 LOAI O CUA AN TOAN — phan bo: vi to nhat 17.11% / top10 39.70%
-
-da ghi 1 dong anh chup vao DO-DEM.md
-UNG VIEN 3/3: 0 · —
-KHONG CO UNG VIEN MOI
-[8 cu · 14 giay]
+ban hop dong: bnb-mainnet-m4.1 40 con · bnb-mainnet-m4.2 10 con · nguon locker: API /contracts
+qua loc tho: 2  (bo: chua tot nghiep 11 · qua gia 37 · loai tu ten 0)
+loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 0/2 con di tiep
+do duoc pool cua lo: 0
+con tien trong pool >= $20,000: 0
+da ghi 0 dong anh chup vao DO-DEM.md
+KHONG CO UNG VIEN
+[4 cu · 7 giay]
