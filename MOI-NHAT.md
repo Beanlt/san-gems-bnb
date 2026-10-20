@@ -15,11 +15,11 @@ SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2.5 23/09) — GIAI DOAN
       pool cua lo cap voi NVDAB/AAPLB/BNCB... nen gia co phieu doi la so USD nhay theo.
    KHONG CO MOC BAN. May in phieu, Bean quyet.
 
-PHIEU BNB · 2026-10-20 14:18 UTC
+PHIEU BNB · 2026-10-20 19:17 UTC
    cong lo · header kieu tran      -> HTTP 403
    cong lo · header kieu day du    -> OK
 lo tra ve: 50 con
-ban hop dong: bnb-mainnet-m4.1 29 con · bnb-mainnet-m4.2 21 con · nguon locker: API /contracts
+ban hop dong: bnb-mainnet-m4.1 28 con · bnb-mainnet-m4.2 22 con · nguon locker: API /contracts
 qua loc tho: 0  (bo: chua tot nghiep 21 · qua gia 29 · loai tu ten 0)
 KHONG CO GI TRONG DAI
 [3 cu · 3 giay]
