@@ -1,0 +1,25 @@
+SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2.5 23/09) — GIAI DOAN 1: GHI SO, chua co muc tuyet doi
+   SAN.py dang chay: van tay sha256 9f0c7e5e7115e610 · nguon so: SO.json + so mac dinh
+   🆕 SO.json de len: them 4 dia chi ha tang
+   BUOC 2 loc tho : da tot nghiep · tuoi <= 48 gio · tien trong pool >= $20,000 · loai tu ten
+   THUOC A tien vao pool : chi xet 5 con day tien nhat RO CUNG LUOT (xep hang, khong phai muc)
+   THUOC B con vao tiep  : tien trong pool TANG so anh chup cach 0.5-3.0 gio
+   THUOC C nguoi moi     : so vi TANG so cung anh chup do
+   BUOC 4 cua an toan    : pool phai KHOA (doc isLocked o locker CUA DUNG BAN hop dong con do) ·
+                           vi nguoi to nhat <=5% · top10 <=25% (GoPlus 56, da loc ha tang)
+   🔴 MA HOP DONG DONG = CANH BAO, KHONG LOAI. Ca lo nay deu ma dong (do 3 con 17/09).
+   🔴 KHU HOI chi la UOC tu TONG POOL — chua do duoc tien doi ung that (viec treo #1).
+   🆕 THUOC A do POOL CUA LO (san 'pancakeswap-infinity'), KHONG do pool sau nhat cua ben thu ba.
+   🆕 THUOC B chi cham khi anh cu la CUNG MOT POOL. Khac pool -> ⬜ khong cham.
+   🆕 THUOC B do bang DON VI TOKEN DOI UNG (bStock), KHONG do bang USD —
+      pool cua lo cap voi NVDAB/AAPLB/BNCB... nen gia co phieu doi la so USD nhay theo.
+   KHONG CO MOC BAN. May in phieu, Bean quyet.
+
+PHIEU BNB · 2026-10-25 06:08 UTC
+   cong lo · header kieu tran      -> HTTP 403
+   cong lo · header kieu day du    -> OK
+lo tra ve: 50 con
+ban hop dong: bnb-mainnet-m4.1 34 con · bnb-mainnet-m4.2 16 con · nguon locker: API /contracts
+qua loc tho: 0  (bo: chua tot nghiep 19 · qua gia 31 · loai tu ten 0)
+KHONG CO GI TRONG DAI
+[3 cu · 3 giay]
