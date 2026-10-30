@@ -15,15 +15,15 @@ SAN GEMS BNB · NGUONG DANG CHAY (Bean chot 17/09, ban v2.5 23/09) — GIAI DOAN
       pool cua lo cap voi NVDAB/AAPLB/BNCB... nen gia co phieu doi la so USD nhay theo.
    KHONG CO MOC BAN. May in phieu, Bean quyet.
 
-PHIEU BNB · 2026-10-30 14:08 UTC
+PHIEU BNB · 2026-10-30 19:55 UTC
    cong lo · header kieu tran      -> HTTP 403
    cong lo · header kieu day du    -> OK
 lo tra ve: 50 con
-ban hop dong: bnb-mainnet-m4.1 25 con · bnb-mainnet-m4.2 25 con · nguon locker: API /contracts
-qua loc tho: 4  (bo: chua tot nghiep 20 · qua gia 26 · loai tu ten 0)
-loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 0/4 con di tiep
+ban hop dong: bnb-mainnet-m4.1 26 con · bnb-mainnet-m4.2 24 con · nguon locker: API /contracts
+qua loc tho: 2  (bo: chua tot nghiep 19 · qua gia 29 · loai tu ten 0)
+loc so bo (pool GT xep dau >= $20,000, giu ca con goi hong): 0/2 con di tiep
 do duoc pool cua lo: 0
 con tien trong pool >= $20,000: 0
 da ghi 0 dong anh chup vao DO-DEM.md
 KHONG CO UNG VIEN
-[4 cu · 7 giay]
+[4 cu · 8 giay]
